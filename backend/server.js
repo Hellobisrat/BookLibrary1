@@ -3,6 +3,7 @@ import db from './config/db.js'
 import dotenv from 'dotenv';
 dotenv.config();
 import User from './models/user.model.js';
+import Book from './models/book.model.js'
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cors from 'cors'
@@ -118,6 +119,33 @@ app.get('/api/fetch-user',async(req,res)=>{
 app.post('/api/logout',async(req,res)=>{
   res.clearCookie('token');
   res.status(200).json({message: "Logged out sucessfully."})
+})
+
+app.post('/api/add-book',async(req,res)=>{
+  const {token} =req.cookies;
+  if(!token){
+    return res.status(401).json({message:'No Token provided'})
+  }
+  try {
+    const decoded = jwt.verify(token,process.env.JWT_SECRET)
+    if(!decoded){
+      return res.status(401).json({message:"Invalid token"})
+    }
+    const userDoc =await User.findById(decoded.id).select("-password");
+    const {image,title,subtitle,author,link,review} =req.body;
+    const book = await Book.create({
+      image,
+      title,
+      subtitle,
+      author,
+      link,
+      review,
+      user:userDoc,
+    })
+    return res.status(200).json({message:'book added successfuly',book})
+  } catch (error) {
+    res.status(400).json({message:error.message})
+  }
 })
 
 
