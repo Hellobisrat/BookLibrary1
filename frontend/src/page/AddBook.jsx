@@ -24,7 +24,7 @@ const AddBook =()=>{
     }
   }
   const handleSubmit = async (e)=>{
-    e.preventDeafult();
+    e.preventDefault();
     if(!image || !title || !author || !link){
       toast.error("Please fill in required information.")
       return;

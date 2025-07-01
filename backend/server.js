@@ -8,13 +8,18 @@ import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cors from 'cors'
 import cookieParser from 'cookie-parser';
+import { v2 as cloudinary } from 'cloudinary';
 
-
+cloudinary.config({
+  cloud_name:process.env.CLOUD_NAME,
+  api_key:process.env.API_KEY,
+  api_secret:process.env.API_SECRET
+})
 
 const app= express();
 const PORT = process.env.PORT;
 console.log('Port is',PORT)
-app.use(express.json())
+app.use(express.json({limit:"20mb"}))
 app.use(cors({
   origin:"http://localhost:3000",
   credentials:true
@@ -133,8 +138,9 @@ app.post('/api/add-book',async(req,res)=>{
     }
     const userDoc =await User.findById(decoded.id).select("-password");
     const {image,title,subtitle,author,link,review} =req.body;
+    const imageResponse = await cloudinary.uploader.upload(image)
     const book = await Book.create({
-      image,
+      image:imageResponse.secure_url,
       title,
       subtitle,
       author,
