@@ -154,6 +154,15 @@ app.post('/api/add-book',async(req,res)=>{
   }
 })
 
+app.get('/api/fetch-books', async(req,res)=>{
+  try {
+    const books = await Book.find().sort({createdAt:-1})
+    return res.status(200).json({books})
+  } catch (error) {
+    res.status(400).json({message:error.message})
+  }
+})
+
 
 
 const startServer = async () => {

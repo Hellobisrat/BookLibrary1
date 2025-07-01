@@ -37,6 +37,16 @@ export const useBookStore = create((set)=>({
       throw error;
       
     }
+  },
+  fetchBooks:async()=>{
+    set({isLoading:true, error:null})
+    try {
+      const response = await axios.get(`${API_URL}/fetch-books`)
+      set({books:response.data.books, isLoading:false})
+    } catch (error) {
+      set({isLoading:false,error:error.response.data.message||'Error fetching books'})
+      throw error;
+    }
   }
   
 }))
