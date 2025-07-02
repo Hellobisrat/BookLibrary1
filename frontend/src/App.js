@@ -11,6 +11,7 @@ import { useAuthStore } from './store/authStore.js';
 import { useEffect } from 'react';
 import RedirectAuthenticatedUser from './provider/RedirectAuthenticatedUsers.jsx'
 import RedirectUnauthenticatedUser from './provider/RedirectUnauthenticatedUsers.jsx'
+import Bookpage from './page/Bookpage.jsx';
 function App() {
   const {fetchUser,fetchingUser}=useAuthStore();
   useEffect(()=>{
@@ -31,6 +32,7 @@ function App() {
        <Route path='/signup' element={<RedirectAuthenticatedUser><SignUp/></RedirectAuthenticatedUser>}/>
        <Route path='/login' element={<RedirectAuthenticatedUser><LogIn /></RedirectAuthenticatedUser>}/>
        <Route path='/add-book' element={<RedirectUnauthenticatedUser><AddBook/></RedirectUnauthenticatedUser>}/>
+       <Route path='/book/:id' element={<Bookpage/>}/>
       </Routes>
       <Footer/>
 </>

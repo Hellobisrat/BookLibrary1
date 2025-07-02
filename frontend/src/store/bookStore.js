@@ -56,7 +56,7 @@ export const useBookStore = create((set)=>({
     } catch (error) {
       set({
         isLoading:false,
-        error:error.response.data.message
+        error:error.response.data.message||"Error fetching book."
       });
       throw error;
       
