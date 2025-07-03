@@ -248,6 +248,17 @@ app.delete('/api/delete-book/:id',async(req,res)=>{
   }
 })
 
+app.get('/api/search',async (req,res)=>{
+  try {
+    const searchTerm = req.query.searchTerm || " ";
+    const books = await Book.find({
+      title:{$regex:searchTerm,$options:"i"}
+    }).sort({createdAt:-1})
+  } catch (error) {
+    res.status(400).json({message:error.message})
+  }
+})
+
 
 
 const startServer = async () => {

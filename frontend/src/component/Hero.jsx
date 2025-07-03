@@ -1,7 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import BgVideo from '../asset/BgVideo.mp4'// sample video from https://www.pixels.com/search/videos/book/
+import { useNavigate } from 'react-router';
 const Hero = () => {
+  const [searchTerm, setSearchTerm]= useState(" ");
+  const navigate = useNavigate();
+   const handleSubmit =(e)=>{
+      e.preventDefault();
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.set("SearchTerm",searchTerm);
+      const searchQuery = urlParams.toString();
+      navigate(`/search?${searchQuery}`)
+      
+    }
   return (
+   
     <div className='relative w-full h-[75vh] lg:h-[90vh] text-[#FFFCF2]
     px-4 md:px-12 overflow-hidden'>
       {/*background overlay */}
@@ -22,9 +34,11 @@ const Hero = () => {
            <span className='text-[#EB5E28]'>explore</span>new w=ones 
            from readers like you.
           </h1> 
-          <form className='relative w-full max-w-sm md:max-w-xl lg:max-w-3xl'>
+          <form onSubmit={handleSubmit} className='relative w-full max-w-sm md:max-w-xl lg:max-w-3xl'>
            <input 
             type='text'
+            value={searchTerm}
+            onChange={(e)=>setSearchTerm(e.target.value)}
             placeholder='e.g. Purple hibiscus'
             className='w-full px-3 py-1.5 md:py-2 text-[#252422]
             rounded-lg placeholder:text-gray-600 bg-[#FFFCF2]'/>
