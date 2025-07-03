@@ -172,6 +172,81 @@ app.get('/api/fetch-book/:id',async(req,res)=>{
     res.status(400).json({message:error.message})
   }
 })
+app.post('/api/update-book/:id', async(req,res)=>{
+  const {image,title,subtitle,author,link,review}=req.body;
+  const {token} = req.cookies;
+  if(!token){
+    return res.status(401).json({message: "No token provided"})
+  }
+  const {id}= req.params
+  try {
+    const decoded = jwt.verify(token,process.env.JWT_SECRET)
+    if(!decoded){
+      return res.status(401).json({message: "Invalid token"})
+      
+    }
+    const book = await Book.findById(id)
+    if (image){
+      const parts =book.image.split('/');
+      const fileName = parts[parts.length -1];
+      const imageId =fileName.split('.')[0];
+      cloudinary.uploader
+        .destroy(`Favlib/${imageId}`)
+        .then((result)=>console.log("result: ",result));
+
+      const imageResponse = await cloudinary.uploader.upload(image,{
+        folder:'/Favlib'
+      })
+      const updatedBook = await Book.findByIdAndUpdate(id,{
+        image:imageResponse.secure_url,
+        title,
+        subtitle,
+        author,
+        link,
+        review
+      })
+      return res.status(200).json({message:"Book updated Successfully.",book:updatedBook})
+    }
+    const updatedBook = await Book.findByIdAndUpdate(id,{
+      title,
+      subtitle,
+      author,
+      link,
+      review
+    })
+    return res.status(200).json({message:'Book updated successfully',book})
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({message:error.message})
+  }
+})
+
+app.delete('/api/delete-book/:id',async(req,res)=>{
+  const {id} =req.params;
+  const {token} =req.cookies;
+  if(!token){
+    return res.status(401).json({message:"No token provided"})
+  }
+  try {
+    const decoded = jwt.verify(token,process.env.JWT_SECRET);
+    if(!decoded){
+      return res.status(401).json({message:"Invalid token"})
+    }
+    const book = await Book.findById(id);
+    const parts = book.image.split('/')
+    const fileName = parts[parts.length-1];
+    const imageId= fileName.split('.')[0];
+    cloudinary.uploader
+    .destroy(imageId)
+    .then((result)=>console.log("result: ",result))
+
+    await Book.findByIdAndDelete(id);
+    return res.status(200).json({message: "Book deleted successfully. "})
+  } catch (error) {
+    console.log(error.message)
+    res.status(400).json({message:error.message})
+  }
+})
 
 
 

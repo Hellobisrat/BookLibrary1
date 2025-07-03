@@ -2,11 +2,12 @@ import {useEffect, useState} from 'react';
 import { Link,useNavigate,useParams } from 'react-router';
 import { useBookStore } from '../store/bookStore';
 import { useAuthStore } from '../store/authStore';
+import toast from 'react-hot-toast';
 
 
 const Bookpage =()=>{
   const {user} = useAuthStore();
-  const {fetchBook,book,isLoading } = useBookStore();
+  const {fetchBook,book,isLoading,deleteBook } = useBookStore();
   const navigate = useNavigate('/');
   const params = useParams();
   const [open, setOpen]= useState(false);
@@ -17,6 +18,11 @@ const Bookpage =()=>{
 
   if(isLoading){
     return <p>Loading ....</p>
+  }
+  const handleDelete = async ()=>{
+    const {message} = await deleteBook(params.id)
+    toast.success(message);
+    navigate('/')
   }
   return (
   <div className='min-h-screen text-[#252422] bg-[#f5f5f5] px-4 md:px-12 pb-10'>
@@ -58,7 +64,7 @@ const Bookpage =()=>{
                     Update
                   </p>
                   </Link>
-                  <p className='text-red-500 cursor-pointer'>Delete</p>
+                  <p onClick={handleDelete} className='text-red-500 cursor-pointer'>Delete</p>
                   </div>
 
               )}

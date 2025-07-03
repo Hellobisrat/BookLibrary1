@@ -61,6 +61,50 @@ export const useBookStore = create((set)=>({
       throw error;
       
     }
+  },
+
+  updateBook:async(id,image,title,subtitle,author,link,review)=>{
+    set({isLoading:true, error:null, message:null});
+    try {
+      const response = await axios.post(`${API_URL}/update-book/${id}`,{
+        image,
+        title,
+        subtitle,
+        author,
+        link,
+        review
+      })
+      const {message,book}=response.data;
+      set({book,message,isLoading:false});
+      return {message, book}
+    } catch (error) {
+      set({
+        isLoading:false,
+        error:error.response.data.message || 'Error updating book.'
+        
+      });
+      throw error;
+
+      
+    }
+  },
+  
+  deleteBook: async (id)=>{
+    set({isLoading:true, error:null, message:null})
+    try {
+      const response = await axios.delete(`${API_URL}/delete-book/${id}`);
+      const {message} =response.data;
+      set({message,isLoading:false})
+      return {message}
+    } catch (error) {
+      set({
+        isLoading:false,
+        error:error.response.data.message || "Error deleting book."
+        
+      });
+      throw error;
+      
+    }
   }
   
 }))

@@ -5,7 +5,7 @@ import SignUp from './page/SignUp.jsx';
 import LogIn from './page/Login.jsx'
 import AddBook from './page/AddBook.jsx'
 import Footer from './component/Footer.jsx'
-
+import UpdateBook from './page/UpdateBook.jsx'
 import {ToastContainer} from 'react-toast'
 import { useAuthStore } from './store/authStore.js';
 import { useEffect } from 'react';
@@ -32,6 +32,7 @@ function App() {
        <Route path='/signup' element={<RedirectAuthenticatedUser><SignUp/></RedirectAuthenticatedUser>}/>
        <Route path='/login' element={<RedirectAuthenticatedUser><LogIn /></RedirectAuthenticatedUser>}/>
        <Route path='/add-book' element={<RedirectUnauthenticatedUser><AddBook/></RedirectUnauthenticatedUser>}/>
+        <Route path='/book/:id/update' element={<RedirectUnauthenticatedUser><UpdateBook/></RedirectUnauthenticatedUser>}/>
        <Route path='/book/:id' element={<Bookpage/>}/>
       </Routes>
       <Footer/>
