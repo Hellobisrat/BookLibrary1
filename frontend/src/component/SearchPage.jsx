@@ -5,29 +5,60 @@ import { useLocation } from "react-router";
 import { Link } from "react-router";
 
 const SearchPage =()=>{
-  const [searchTerm, setSearchTerm]=useState(" ");
+  const [searchTerm, setSearchTerm]=useState("");
   const {searchBooks, books}= useBookStore()
   const navigate =useNavigate();
   const location = useLocation();
 
-  const handleSubmit = async (e)=>{
-    e.preventDefault();
-    const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set("searchTerm",searchTerm);
-    const searchQuery = urlParams.toString();
-    await searchBooks(searchQuery);
-    navigate(`/search?${searchQuery}`)
-  }
 
-  useEffect(()=>{
-    const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get("SearchTerm");
-    if(searchTermFromUrl){
-      const searchQuery = urlParams.toString();
-      searchBooks(searchQuery);
-      setSearchTerm(searchTermFromUrl)
-    }
-  },[searchBooks])
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  const trimmedTerm = searchTerm.trim();
+
+  if (!trimmedTerm) return;
+
+  const urlParams = new URLSearchParams(location.search);
+
+
+  urlParams.set("searchTerm", trimmedTerm);
+
+  const searchQuery = urlParams.toString();
+  await searchBooks(searchQuery);
+  navigate(`/search?${searchQuery}`);
+};
+
+useEffect(() => {
+  const urlParams = new URLSearchParams(location.search);
+  const searchTermFromUrl = urlParams.get("searchTerm");
+
+  if (searchTermFromUrl) {
+    const query = `searchTerm=${searchTermFromUrl}`;
+    searchBooks(query);
+    setSearchTerm(searchTermFromUrl.trim());
+  }
+}, [searchBooks]);
+
+  // const handleSubmit = async (e)=>{
+  //   e.preventDefault();
+  //    const trimmedTerm = searchTerm.trim();
+  //   const urlParams = new URLSearchParams(location.search);
+  //   urlParams.set("searchTerm", trimmedTerm);
+
+  //   const searchQuery = urlParams.toString();
+  //   await searchBooks(searchQuery);
+  //   navigate(`/search?${searchQuery}`);
+
+  // }
+
+  // useEffect(()=>{
+  //   const urlParams = new URLSearchParams(location.search);
+  //   const searchTermFromUrl = urlParams.get("searchTerm");
+  //   if(searchTermFromUrl){
+  //     const searchQuery = urlParams.toString();
+  //     searchBooks(searchQuery);
+  //     setSearchTerm(searchTermFromUrl)
+  //   }
+  // },[searchBooks])
   return(
     <div className="min-h-screen text-[#252422] bg-[#f5f5f5] 
     px-4 md:px-12 pb-10">
