@@ -27,7 +27,7 @@ app.use(cors({
 }))
 app.use(cookieParser());
 
-const_dirname = path.resolve();
+const _dirname = path.resolve();
 
 
 
