@@ -22,16 +22,14 @@ const PORT = process.env.PORT;
 console.log('Port is',PORT)
 app.use(express.json({limit:"20mb"}))
 app.use(cors({
-  origin:"http://localhost:3000",
+  origin:"https://booklibrary1-h0cq.onrender.com",
   credentials:true
 }))
 app.use(cookieParser());
 
 const_dirname = path.resolve();
 
-app.get("/",(req,res)=>{
-  res.send('Back end server is running')
-})
+
 
 app.post('/api/signup', async(req,res)=>{
   const {username,email,password}= req.body;
