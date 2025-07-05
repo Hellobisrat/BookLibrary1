@@ -109,7 +109,7 @@ export const useBookStore = create((set)=>({
   searchBooks: async (searchTerm)=>{
     set({isLoading:true, error: null});
     try {
-      const response = await axios.get(`${API_URL}/search?${searchTerm}`)
+      const response = await axios.get(`${API_URL}/search?searchTerm=${encodeURIComponent(searchTerm)}`);
       set({books:response.data.books, isLoading:false})
       
     } catch (error) {
