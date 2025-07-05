@@ -254,14 +254,17 @@ app.delete('/api/delete-book/:id',async(req,res)=>{
 })
 
 app.get('/api/search',async (req,res)=>{
-  try {
-    const searchTerm = req.query.searchTerm || " ";
+   try {
+    const searchTerm = req.query.searchTerm?.trim() || "";
     const books = await Book.find({
-      title:{$regex:searchTerm,$options:"i"}
-    }).sort({createdAt:-1})
+      title: { $regex: searchTerm, $options: "i" }
+    }).sort({ createdAt: -1 });
+
+    res.status(200).json({ books }); // ✅ send the result
   } catch (error) {
-    res.status(400).json({message:error.message})
+    res.status(400).json({ message: error.message });
   }
+
 })
 
 if(process.env.NODE_ENV==='production'){
