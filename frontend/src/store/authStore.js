@@ -70,6 +70,7 @@ export const useAuthStore = create((set)=>({
       set({user: response.data.user,fetchingUser:false})
     } catch (error) {
       set({
+         message : error?.response?.data?.message || "Failed to fetch user",
         error:null,
         fetchingUser:false,
         user:null,
