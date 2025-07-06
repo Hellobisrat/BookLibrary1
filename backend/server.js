@@ -1,11 +1,11 @@
 
 import express from 'express';
-import db from './backend/config/db.js'
+import db from './config/db.js'
 import dotenv from 'dotenv'
 dotenv.config();
-import User from './backend/models/user.model.js'
-import Book from './backend/models/book.model.js';
-import bcrypt from 'bcryptjs';
+import User from './models/user.model.js'
+import Book from './models/book.model.js';
+import * as bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken'
 import cors from 'cors'
 import cookieParser from 'cookie-parser';
