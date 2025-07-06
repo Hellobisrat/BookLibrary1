@@ -1,16 +1,17 @@
+
 import express from 'express';
-import db from './config/db.js'
-import dotenv from 'dotenv';
+import db from './backend/config/db.js'
+import dotenv from 'dotenv'
 dotenv.config();
-import User from './models/user.model.js';
-import Book from './models/book.model.js'
-import bcryptjs from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import User from './backend/models/user.model.js'
+import Book from './backend/models/book.model.js';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken'
 import cors from 'cors'
 import cookieParser from 'cookie-parser';
-import path from 'path';
+import path from 'path'
 import { fileURLToPath } from 'url';
-import { v2 as cloudinary } from 'cloudinary';
+import {v2 as cloudinary} from 'cloudinary'
 
 cloudinary.config({
   cloud_name:process.env.CLOUD_NAME,
@@ -18,21 +19,17 @@ cloudinary.config({
   api_secret:process.env.API_SECRET
 })
 
-const app= express();
-const PORT = process.env.PORT;
-console.log('Port is',PORT)
+const app =express();
+const PORT =process.env.PORT || 5000;
+
 app.use(express.json({limit:"20mb"}))
 app.use(cors({
   origin:"https://booklibrary1-h0cq.onrender.com",
   credentials:true
 }))
-app.use(cookieParser());
+app.use(cookieParser())
 
 const __dirname = path.resolve()
-
-
-
-
 
 app.post('/api/signup', async(req,res)=>{
   const {username,email,password}= req.body;
@@ -266,13 +263,17 @@ app.get('/api/search',async (req,res)=>{
 
 })
 
-if(process.env.NODE_ENV==='production'){
-  
-  app.use(express.static(path.join(__dirname, '/frontend/build')));
-  app.get('*',(req,res)=>{
-    res.sendFile(path.resolve(__dirname,'frontend','build','index.html'))
-  })
+if (process.env.NODE_ENV === 'production') {
+  const buildPath = path.join(__dirname, 'frontend', 'build');
+
+  app.use(express.static(buildPath));
+
+  app.get(/^\/(?!api).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
+});
 }
+
+
 
 
 
