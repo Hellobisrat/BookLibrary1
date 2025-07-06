@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 const Bookpage =()=>{
   const {user} = useAuthStore();
   const {fetchBook,book,isLoading,deleteBook } = useBookStore();
-  const navigate = useNavigate('/');
+  const navigate = useNavigate();
   const params = useParams();
   const [open, setOpen]= useState(false);
 
@@ -38,7 +38,7 @@ const Bookpage =()=>{
         />
         <Link to={book?.link} target='_blank'>
         <div className='w-full flex justify-center items-center'>
-          <button className='bg-[#403D39] text-[#CCC%B9] px-3 py-2
+          <button className='bg-[#403D39] text-[#CCB9B9] px-3 py-2
           w-full md:max-w-52 mt-3'>
             Read
           </button>

@@ -5,7 +5,7 @@ import { useBookStore } from "../store/bookStore";
 
 const AddBook =()=>{
   const [image,setImage]= useState("");
-  const [title,setTitle]= useState(" ");
+  const [title,setTitle]= useState("");
   const [subtitle,setSubtitle]= useState(" ");
   const [author, setAuthor]= useState(" ");
   const [link, setLink]= useState(" ");
@@ -102,7 +102,7 @@ const AddBook =()=>{
             <input
              type="text"
              value={review}
-             onChange={(e)=>setReview(e.target.value)}
+             onChange={(e) => setReview(e.target.value)}
              className="w-full px-3 py-1.5 md:py-2 text-[#252422]
              rounded-lg bg-white border border-gray-500"/>
           </div>

@@ -7,11 +7,11 @@ import { useParams } from "react-router";
 const UpdateBook =()=>{
 
   const [image,setImage]= useState("");
-  const [title,setTitle]= useState(" ");
-  const [subtitle,setSubtitle]= useState(" ");
-  const [author, setAuthor]= useState(" ");
-  const [link, setLink]= useState(" ");
-  const [review, setReview]= useState(" ");
+  const [title,setTitle]= useState("");
+  const [subtitle,setSubtitle]= useState("");
+  const [author, setAuthor]= useState("");
+  const [link, setLink]= useState("");
+  const [review, setReview]= useState("");
   const {isLoading, error, updateBook,fetchBook,book} = useBookStore();
   const navigate = useNavigate();
   const params = useParams();
@@ -73,7 +73,7 @@ const UpdateBook =()=>{
             <label className="md:text-lg">Book Image*:</label>
             <input
              type="file"
-             accept="image/*:"
+             accept="image/*"
              onChange={handleImageChange}
              className="w-full px-3 py-1.5 md:py-2 text-[#252422]
              rounded-lg bg-white border border-gray-500"/>

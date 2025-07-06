@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
-
-const API_URL ="https://booklibrary1-h0cq.onrender.com/api";
+const API_URL = import.meta.env.VITE_API_URL;
 
 axios.defaults.withCredentials = true;
 
@@ -30,7 +29,7 @@ export const useBookStore = create((set)=>({
     } catch(error){
       set({
         isLoading:false,
-        error:error.response.data.message
+        error:error?.response?.data?.message || error.message || "Something went wrong."
                    
         
       });

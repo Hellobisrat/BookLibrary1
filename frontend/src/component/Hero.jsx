@@ -7,7 +7,7 @@ const Hero = () => {
    const handleSubmit =(e)=>{
       e.preventDefault();
       const urlParams = new URLSearchParams(window.location.search);
-      urlParams.set("SearchTerm",searchTerm);
+      urlParams.set("searchTerm",searchTerm);
       const searchQuery = urlParams.toString();
       navigate(`/search?${searchQuery}`)
       
@@ -21,8 +21,10 @@ const Hero = () => {
       opacity-80 -z-10'></div>
       <div className='absolute insert-0 -z-20'>
         <video
-        className='object-cover object-center w-full h-full
-        autoplay loop muted'>
+        className='object-cover object-center w-full h-full'
+        autoplay
+        loop
+        muted>
           <source src={BgVideo} type='video/mp4'/>
         </video>
       </div>
@@ -31,7 +33,7 @@ const Hero = () => {
         lg:pb-12 text-center max-w-5xl'>
            Share Your <span className='text-[#EB5E28]'>favorite</span>
            books and {" "}
-           <span className='text-[#EB5E28]'>explore</span>new w=ones 
+           <span className='text-[#EB5E28]'>explore</span>new ones 
            from readers like you.
           </h1> 
           <form onSubmit={handleSubmit} className='relative w-full max-w-sm md:max-w-xl lg:max-w-3xl'>

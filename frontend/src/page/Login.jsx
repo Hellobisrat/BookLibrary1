@@ -4,8 +4,8 @@ import {toast} from 'react-hot-toast'
 import {Link, useNavigate } from 'react-router'; // ✅ correct package
 
 const LogIn = () => {
-   const [username, setUsername] = useState(" ");
-   const [password, setPassword] = useState(" ")
+   const [username, setUsername] =useState("");
+   const [password, setPassword] = useState("");
    const {login, isLoading,error}= useAuthStore();
    const navigate= useNavigate();
  
@@ -16,8 +16,9 @@ const LogIn = () => {
       toast.success(message);
       navigate('/')
     } catch (error) {
-      console.log(error)
+    toast.error(error?.response?.data?.message || "Login failed.");
     }
+
    }
   return (
     <div className='min-h-screen text-[#252422] bg-[#f5f5f5]
@@ -58,7 +59,7 @@ const LogIn = () => {
           {isLoading ? 'please wait ...':"Log in"}
         </button>
         <p>
-          Don&rsquto;t have an account?{" "}
+          Don&rsquo;t have an account?{" "}
           <Link to={'/signup'} className='text-[#944424]'>
           Sign up
           </Link>

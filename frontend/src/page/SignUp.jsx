@@ -12,7 +12,7 @@ const SignUp = () => {
   const [username,setUsername]=useState("");
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
-  const [confirmPassword, setConfirmPassword]=useState(" ")
+  const [confirmPassword, setConfirmPassword]=useState("");
   const {signup,isLoading,error} =useAuthStore();
   const navigate =useNavigate();
   const handleSubmit = async(e)=>{
@@ -27,7 +27,8 @@ const SignUp = () => {
     navigate('/')
     
     } catch(error){
-      console.log(error)
+     toast.error(error?.response?.data?.message || "Signup failed.");
+
     }
 
   }
@@ -95,7 +96,7 @@ const SignUp = () => {
           </Link>
         </p>
        </form>
-       
+       <ToastContainer position="top-center" autoClose={3000} />
        
     </div>
   )

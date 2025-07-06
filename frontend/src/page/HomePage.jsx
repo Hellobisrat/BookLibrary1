@@ -4,11 +4,10 @@ import BookList from '../component/BookList'
 
 const HomePage = () => {
   return (
-    <div>
-
-      <Hero/>
-      <BookList/>
-    </div>
+   <main>
+  <Hero />
+  <BookList />
+  </main>
   )
 }
 

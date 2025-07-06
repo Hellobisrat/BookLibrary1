@@ -1,6 +1,6 @@
 import {create} from "zustand";
 import axios from 'axios';
-const API_URL = 'https://booklibrary1-h0cq.onrender.com/api';
+const API_URL = import.meta.env.VITE_API_URL;
 axios.defaults.withCredentials = true;
 
 
@@ -26,7 +26,7 @@ export const useAuthStore = create((set)=>({
     }
       catch (error) {
   const message =
-    error?.response?.data?.message || error.message || "Signup failed.";
+  error?.response?.data?.message || error.message || "Signup failed.";
   set({
     isLoading: false,
     error: message,

@@ -10,7 +10,6 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
 import { v2 as cloudinary } from 'cloudinary';
 
 cloudinary.config({

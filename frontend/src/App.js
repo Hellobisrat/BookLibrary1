@@ -6,13 +6,14 @@ import LogIn from './page/Login.jsx'
 import AddBook from './page/AddBook.jsx'
 import Footer from './component/Footer.jsx'
 import UpdateBook from './page/UpdateBook.jsx'
-import {ToastContainer} from 'react-toast'
+import { ToastContainer } from 'react-toastify';
 import { useAuthStore } from './store/authStore.js';
 import { useEffect } from 'react';
 import RedirectAuthenticatedUser from './provider/RedirectAuthenticatedUsers.jsx'
 import RedirectUnauthenticatedUser from './provider/RedirectUnauthenticatedUsers.jsx'
 import Bookpage from './page/Bookpage.jsx';
 import SearchPage from './component/SearchPage.jsx';
+import NotFound from './page/NotFound.jsx';
 function App() {
   const {fetchUser,fetchingUser}=useAuthStore();
   useEffect(()=>{
@@ -25,7 +26,7 @@ function App() {
   return (
     <> 
    
-      <ToastContainer/>
+      <ToastContainer position="top-center" autoClose={3000} hideProgressBar />
       <Navbar/>
       <Routes>
         
@@ -36,6 +37,7 @@ function App() {
        <Route path='/book/:id/update' element={<RedirectUnauthenticatedUser><UpdateBook/></RedirectUnauthenticatedUser>}/>
        <Route path='/book/:id' element={<Bookpage/>}/>
        <Route path='/search' element={<SearchPage/>}/>
+       <Route path='*' element={<NotFound/>}/>
       </Routes>
       <Footer/>
 </>
