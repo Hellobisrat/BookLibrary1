@@ -22,7 +22,7 @@ export const useBookStore = create((set)=>({
         author,
         link,
         review
-      });
+      }, { withCredentials: true });
       const {message,book} = response.data
       set({book,message,isLoading:false})
       return {message,book}
@@ -40,7 +40,7 @@ export const useBookStore = create((set)=>({
   fetchBooks:async()=>{
     set({isLoading:true, error:null})
     try {
-      const response = await axios.get(`${API_URL}/fetch-books`)
+      const response = await axios.get(`${API_URL}/fetch-books`, { withCredentials: true })
       set({books:response.data.books, isLoading:false})
     } catch (error) {
       set({isLoading:false,error:error.response.data.message||'Error fetching books'})
@@ -50,7 +50,7 @@ export const useBookStore = create((set)=>({
   fetchBook:async(id)=>{
     set({isLoading:true,error:null})
     try {
-      const response = await axios.get(`${API_URL}/fetch-book/${id}`)
+      const response = await axios.get(`${API_URL}/fetch-book/${id}`, { withCredentials: true })
       set({book:response.data.book,isLoading:false})
     } catch (error) {
       set({
@@ -72,7 +72,7 @@ export const useBookStore = create((set)=>({
         author,
         link,
         review
-      })
+      }, { withCredentials: true })
       const {message,book}=response.data;
       set({book,message,isLoading:false});
       return {message, book}
@@ -91,7 +91,7 @@ export const useBookStore = create((set)=>({
   deleteBook: async (id)=>{
     set({isLoading:true, error:null, message:null})
     try {
-      const response = await axios.delete(`${API_URL}/delete-book/${id}`);
+      const response = await axios.delete(`${API_URL}/delete-book/${id}`, { withCredentials: true });
       const {message} =response.data;
       set({message,isLoading:false})
       return {message}
