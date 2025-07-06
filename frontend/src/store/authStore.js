@@ -18,10 +18,11 @@ export const useAuthStore = create((set)=>({
         username,
         email,
         password
-      });
+      }, { withCredentials: true });
       set({
         user:response.data.user,
-        isLoading:false
+        isLoading:false,
+        message: response.data.message || "Signup successful"
       })
     }
       catch (error) {
@@ -44,12 +45,12 @@ export const useAuthStore = create((set)=>({
       const response = await axios.post(`${API_URL}/login`,{
         username,
         password
-      })
+      }, { withCredentials: true })
       const {user, message}=response.data;
       set({
         user,
         isLoading:false,
-        message
+        message: response.data.message || "LogIn successful"
       })
       return {user,message}
     } catch (error) {
