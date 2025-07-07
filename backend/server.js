@@ -221,33 +221,41 @@ app.post('/api/update-book/:id', async(req,res)=>{
     res.status(400).json({message:error.message})
   }
 })
+app.delete('/api/delete-book/:id', async (req, res) => {
+  const { id } = req.params;
+  const { token } = req.cookies;
 
-app.delete('/api/delete-book/:id',async(req,res)=>{
-  const {id} =req.params;
-  const {token} =req.cookies;
-  if(!token){
-    return res.status(401).json({message:"No token provided"})
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
   }
+
   try {
-    const decoded = jwt.verify(token,process.env.JWT_SECRET);
-    if(!decoded){
-      return res.status(401).json({message:"Invalid token"})
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (!decoded) {
+      return res.status(401).json({ message: "Invalid token" });
     }
-    const book = await Book.findById(id);
-    const parts = book.image.split('/')
-    const fileName = parts[parts.length-1];
-    const imageId= fileName.split('.')[0];
-    cloudinary.uploader
-    .destroy(imageId)
-    .then((result)=>console.log("result: ",result))
 
+    const book = await Book.findById(id);
+    if (!book) {
+      return res.status(400).json({ message: "Book not found." });
+    }
+
+    // safely extract Cloudinary image ID
+    const parts = book.image.split('/');
+    const fileName = parts[parts.length - 1];
+    const imageId = fileName.split('.')[0];
+
+    await cloudinary.uploader.destroy(imageId);
     await Book.findByIdAndDelete(id);
-    return res.status(200).json({message: "Book deleted successfully. "})
+
+    return res.status(200).json({ message: "Book deleted successfully." });
+
   } catch (error) {
-    console.log(error.message)
-    res.status(400).json({message:error.message})
+    console.error("Error deleting book:", error.message);
+    res.status(400).json({ message: error.message });
   }
-})
+});
+
 
 app.get('/api/search',async (req,res)=>{
    try {
